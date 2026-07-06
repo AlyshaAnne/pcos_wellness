@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "425278799522",
+    "project_id": "pcos-wellness-app-e202a",
+    "storage_bucket": "pcos-wellness-app-e202a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:425278799522:android:76aa4dbb2d5f5410f161fb",
+        "android_client_info": {
+          "package_name": "com.alyshaanne.pcos_wellness"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBGch0elVTjKHM3mOsfbxweB7YhPKSduh4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
