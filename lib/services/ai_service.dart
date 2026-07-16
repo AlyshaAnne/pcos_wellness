@@ -1,12 +1,25 @@
 import 'package:google_generative_ai/google_generative_ai.dart';
 
 class AIService {
-  static const String _apiKey = '';
-
-  final GenerativeModel _model = GenerativeModel(
-    model: 'gemini-2.0-flash-lite',
-    apiKey: _apiKey,
+  static const String _apiKey = String.fromEnvironment(
+    'GEMINI_API_KEY',
   );
+
+  late final GenerativeModel _model;
+
+  AIService() {
+    if (_apiKey.isEmpty) {
+      throw StateError(
+        'GEMINI_API_KEY was not provided. '
+            'Run Flutter using --dart-define=GEMINI_API_KEY=your_key',
+      );
+    }
+
+    _model = GenerativeModel(
+      model: 'gemini-2.0-flash-lite',
+      apiKey: _apiKey,
+    );
+  }
 
   Future<String> generateWellnessInsight({
     required double mood,

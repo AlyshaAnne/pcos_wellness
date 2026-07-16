@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+
 import '../../theme/app_theme.dart';
-import 'package:flutter/material.dart';
-import '../../theme/app_theme.dart';
+import '../community/community_screen.dart';
+import '../cycle/cycle_screen.dart';
 import '../daily_log/daily_log_screen.dart';
 import '../food/food_screen.dart';
-import '../cycle/cycle_screen.dart';
 import '../insights/insights_screen.dart';
 import '../profile/profile_screen.dart';
 
@@ -14,7 +14,9 @@ class DashboardScreen extends StatelessWidget {
   static void _go(BuildContext context, Widget screen) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (_) => screen),
+      MaterialPageRoute(
+        builder: (_) => screen,
+      ),
     );
   }
 
@@ -25,14 +27,16 @@ class DashboardScreen extends StatelessWidget {
       body: SafeArea(
         child: Center(
           child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 520),
+            constraints: const BoxConstraints(
+              maxWidth: 520,
+            ),
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(28),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
-                    "PCOS Wellness",
+                    'PCOS Wellness',
                     style: TextStyle(
                       fontSize: 28,
                       fontWeight: FontWeight.w900,
@@ -41,7 +45,7 @@ class DashboardScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   const Text(
-                    "Dashboard",
+                    'Dashboard',
                     style: TextStyle(
                       fontSize: 42,
                       fontWeight: FontWeight.w900,
@@ -50,7 +54,8 @@ class DashboardScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   const Text(
-                    "Track your cycle, symptoms, food, and wellness progress.",
+                    'Track your cycle, symptoms, food, wellness progress, '
+                        'and connect with the community.',
                     style: TextStyle(
                       fontSize: 16,
                       height: 1.5,
@@ -79,7 +84,8 @@ class DashboardScreen extends StatelessWidget {
                         ),
                         SizedBox(height: 8),
                         Text(
-                          "Log your mood, meals, cycle, and symptoms for better insights.",
+                          'Log your mood, meals, cycle, and symptoms for '
+                              'better insights.',
                           style: TextStyle(
                             fontSize: 15,
                             height: 1.4,
@@ -93,34 +99,76 @@ class DashboardScreen extends StatelessWidget {
                   const SizedBox(height: 24),
 
                   _DashboardCard(
-                    title: "Daily Log",
-                    subtitle: "Mood, sleep, water, stress and weight",
+                    title: 'Daily Log',
+                    subtitle: 'Mood, sleep, water, stress and weight',
                     icon: Icons.edit_note_rounded,
-                    onTap: () => _go(context, const DailyLogScreen()),
+                    onTap: () {
+                      _go(
+                        context,
+                        const DailyLogScreen(),
+                      );
+                    },
                   ),
+
                   _DashboardCard(
-                    title: "Food Tracker",
-                    subtitle: "Meals, snacks and PCOS-friendly notes",
+                    title: 'Food Tracker',
+                    subtitle: 'Meals, snacks and PCOS-friendly notes',
                     icon: Icons.restaurant_rounded,
-                    onTap: () => _go(context, const FoodScreen()),
+                    onTap: () {
+                      _go(
+                        context,
+                        const FoodScreen(),
+                      );
+                    },
                   ),
+
                   _DashboardCard(
-                    title: "Cycle Tracker",
-                    subtitle: "Period dates, cycle length and notes",
+                    title: 'Cycle Tracker',
+                    subtitle: 'Period dates, cycle length and notes',
                     icon: Icons.calendar_month_rounded,
-                    onTap: () => _go(context, const CycleScreen()),
+                    onTap: () {
+                      _go(
+                        context,
+                        const CycleScreen(),
+                      );
+                    },
                   ),
+
                   _DashboardCard(
-                    title: "Insights",
-                    subtitle: "View your trends and graphs",
+                    title: 'Insights',
+                    subtitle: 'View your trends, graphs and AI guidance',
                     icon: Icons.show_chart_rounded,
-                    onTap: () => _go(context, const InsightsScreen()),
+                    onTap: () {
+                      _go(
+                        context,
+                        const InsightsScreen(),
+                      );
+                    },
                   ),
+
                   _DashboardCard(
-                    title: "Profile",
-                    subtitle: "Manage your account and preferences",
+                    title: 'Community',
+                    subtitle: 'Create posts, join activities and earn XP',
+                    icon: Icons.groups_rounded,
+                    iconBackgroundColor: AppColors.petalFrost,
+                    onTap: () {
+                      _go(
+                        context,
+                        const CommunityScreen(),
+                      );
+                    },
+                  ),
+
+                  _DashboardCard(
+                    title: 'Profile',
+                    subtitle: 'Manage your account, badges and achievements',
                     icon: Icons.person_rounded,
-                    onTap: () => _go(context, const ProfileScreen()),
+                    onTap: () {
+                      _go(
+                        context,
+                        const ProfileScreen(),
+                      );
+                    },
                   ),
                 ],
               ),
@@ -137,12 +185,14 @@ class _DashboardCard extends StatelessWidget {
   final String subtitle;
   final IconData icon;
   final VoidCallback onTap;
+  final Color iconBackgroundColor;
 
   const _DashboardCard({
     required this.title,
     required this.subtitle,
     required this.icon,
     required this.onTap,
+    this.iconBackgroundColor = AppColors.lightBlue,
   });
 
   @override
@@ -157,7 +207,9 @@ class _DashboardCard extends StatelessWidget {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(24),
-            border: Border.all(color: AppColors.petalFrost),
+            border: Border.all(
+              color: AppColors.petalFrost,
+            ),
           ),
           child: Row(
             children: [
@@ -165,7 +217,7 @@ class _DashboardCard extends StatelessWidget {
                 width: 54,
                 height: 54,
                 decoration: BoxDecoration(
-                  color: AppColors.lightBlue,
+                  color: iconBackgroundColor,
                   borderRadius: BorderRadius.circular(18),
                 ),
                 child: Icon(
