@@ -205,73 +205,81 @@ class _CommunityScreenState extends State<CommunityScreen> {
   void _showCreateOptions() {
     showModalBottomSheet<void>(
       context: context,
+      isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (bottomSheetContext) {
-        return Container(
-          padding: const EdgeInsets.fromLTRB(
-            24,
-            20,
-            24,
-            30,
-          ),
-          decoration: const BoxDecoration(
-            color: AppColors.beige,
-            borderRadius: BorderRadius.vertical(
-              top: Radius.circular(30),
+        return SafeArea(
+          top: false,
+          child: SingleChildScrollView(
+            padding: EdgeInsets.only(
+              bottom: MediaQuery.of(bottomSheetContext).viewInsets.bottom,
             ),
-          ),
-          child: SafeArea(
-            top: false,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  width: 48,
-                  height: 5,
-                  decoration: BoxDecoration(
-                    color: AppColors.greyText.withOpacity(0.35),
-                    borderRadius: BorderRadius.circular(20),
+            child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.fromLTRB(
+                24,
+                20,
+                24,
+                30,
+              ),
+              decoration: const BoxDecoration(
+                color: AppColors.beige,
+                borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(30),
+                ),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    width: 48,
+                    height: 5,
+                    decoration: BoxDecoration(
+                      color: AppColors.greyText.withOpacity(0.35),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
                   ),
-                ),
-                const SizedBox(height: 20),
-                const Text(
-                  'Create Something ✨',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w900,
-                    color: AppColors.darkText,
+                  const SizedBox(height: 20),
+                  const Text(
+                    'Create Something ✨',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w900,
+                      color: AppColors.darkText,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 8),
-                const Text(
-                  'Share your journey or organise an activity.',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: AppColors.greyText,
+                  const SizedBox(height: 8),
+                  const Text(
+                    'Share your journey or organise an activity.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: AppColors.greyText,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 22),
-                _createOption(
-                  icon: Icons.edit_rounded,
-                  title: 'Create Post',
-                  subtitle: 'Share progress, advice or a question',
-                  onTap: () {
-                    Navigator.pop(bottomSheetContext);
-                    _openCreatePost();
-                  },
-                ),
-                const SizedBox(height: 14),
-                _createOption(
-                  icon: Icons.directions_run_rounded,
-                  title: 'Create Activity',
-                  subtitle: 'Organise an activity others can join',
-                  onTap: () {
-                    Navigator.pop(bottomSheetContext);
-                    _openCreateActivity();
-                  },
-                ),
-              ],
+                  const SizedBox(height: 22),
+                  _createOption(
+                    icon: Icons.edit_rounded,
+                    title: 'Create Post',
+                    subtitle: 'Share progress, advice or a question',
+                    onTap: () {
+                      Navigator.pop(bottomSheetContext);
+                      _openCreatePost();
+                    },
+                  ),
+                  const SizedBox(height: 14),
+                  _createOption(
+                    icon: Icons.directions_run_rounded,
+                    title: 'Create Activity',
+                    subtitle: 'Organise an activity others can join',
+                    onTap: () {
+                      Navigator.pop(bottomSheetContext);
+                      _openCreateActivity();
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         );
@@ -331,6 +339,8 @@ class _CommunityScreenState extends State<CommunityScreen> {
                     const SizedBox(height: 4),
                     Text(
                       subtitle,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         fontSize: 13,
                         color: AppColors.greyText,
@@ -1226,35 +1236,37 @@ class _CommunityScreenState extends State<CommunityScreen> {
         borderRadius: BorderRadius.circular(22),
       ),
       child: Row(
-        children: List.generate(
-          labels.length,
-              (index) {
-            final selected = _selectedTab == index;
+        children: List.generate(labels.length, (index) {
+          final selected = _selectedTab == index;
 
-            return Expanded(
-              child: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    _selectedTab = index;
-                  });
-                },
-                child: AnimatedContainer(
-                  duration:
-                  const Duration(milliseconds: 220),
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 13,
-                  ),
-                  decoration: BoxDecoration(
-                    color: selected
-                        ? AppColors.petalRouge
-                        : Colors.transparent,
-                    borderRadius:
-                    BorderRadius.circular(18),
-                  ),
+          return Expanded(
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  _selectedTab = index;
+                });
+              },
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 220),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 13,
+                  horizontal: 4,
+                ),
+                decoration: BoxDecoration(
+                  color: selected
+                      ? AppColors.petalRouge
+                      : Colors.transparent,
+                  borderRadius: BorderRadius.circular(18),
+                ),
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
                   child: Text(
                     labels[index],
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,
                     style: TextStyle(
+                      fontSize: 14,
                       fontWeight: FontWeight.w900,
                       color: selected
                           ? Colors.white
@@ -1263,9 +1275,9 @@ class _CommunityScreenState extends State<CommunityScreen> {
                   ),
                 ),
               ),
-            );
-          },
-        ),
+            ),
+          );
+        }),
       ),
     );
   }

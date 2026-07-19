@@ -98,15 +98,15 @@ class AchievementsScreen extends StatelessWidget {
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: badges.length,
-                    gridDelegate:
-                    const SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       crossAxisSpacing: 14,
                       mainAxisSpacing: 14,
-                      childAspectRatio: 1.05,
+                      childAspectRatio: 0.72,
                     ),
                     itemBuilder: (context, index) {
                       final badge = badges[index];
+
                       return _badgeCard(
                         emoji: badge['emoji'],
                         title: badge['title'],

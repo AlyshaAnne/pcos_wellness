@@ -378,26 +378,34 @@ class _LoginScreenState extends State<LoginScreen> {
 
                     const SizedBox(height: 10),
 
-                    Row(
+                    Wrap(
+                      alignment: WrapAlignment.spaceBetween,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      spacing: 8,
+                      runSpacing: 6,
                       children: [
-                        Checkbox(
-                          value: _rememberMe,
-                          activeColor: AppColors.petalRouge,
-                          onChanged: _isLoading
-                              ? null
-                              : (value) {
-                            setState(() {
-                              _rememberMe = value ?? false;
-                            });
-                          },
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Checkbox(
+                              value: _rememberMe,
+                              activeColor: AppColors.petalRouge,
+                              onChanged: _isLoading
+                                  ? null
+                                  : (value) {
+                                setState(() {
+                                  _rememberMe = value ?? false;
+                                });
+                              },
+                            ),
+                            const Text(
+                              'Remember me',
+                              style: TextStyle(
+                                color: AppColors.darkText,
+                              ),
+                            ),
+                          ],
                         ),
-                        const Text(
-                          'Remember me',
-                          style: TextStyle(
-                            color: AppColors.darkText,
-                          ),
-                        ),
-                        const Spacer(),
                         TextButton(
                           onPressed: _isLoading
                               ? null
@@ -405,8 +413,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (_) =>
-                                const ForgotPasswordScreen(),
+                                builder: (_) => const ForgotPasswordScreen(),
                               ),
                             );
                           },
