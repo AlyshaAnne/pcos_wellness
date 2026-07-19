@@ -167,14 +167,19 @@ class ProfileScreen extends StatelessWidget {
                             ),
                             const SizedBox(height: 14),
 
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                _badgePreview('🌱', 'First Log'),
-                                _badgePreview('💧', 'Hydration'),
-                                _badgePreview('🌸', 'Cycle'),
-                                _badgePreview('🤝', 'Community'),
-                              ],
+                            SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                children: [
+                                  _badgePreview('🌱', 'First Log'),
+                                  const SizedBox(width: 12),
+                                  _badgePreview('💧', 'Hydration'),
+                                  const SizedBox(width: 12),
+                                  _badgePreview('🌸', 'Cycle'),
+                                  const SizedBox(width: 12),
+                                  _badgePreview('🤝', 'Community'),
+                                ],
+                              ),
                             ),
 
                             const SizedBox(height: 18),

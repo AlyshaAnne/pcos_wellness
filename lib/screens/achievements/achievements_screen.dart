@@ -102,7 +102,7 @@ class AchievementsScreen extends StatelessWidget {
                       crossAxisCount: 2,
                       crossAxisSpacing: 14,
                       mainAxisSpacing: 14,
-                      childAspectRatio: 0.72,
+                      mainAxisExtent: 285
                     ),
                     itemBuilder: (context, index) {
                       final badge = badges[index];
