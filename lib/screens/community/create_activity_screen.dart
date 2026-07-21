@@ -29,6 +29,9 @@ class _CreateActivityScreenState extends State<CreateActivityScreen> {
   String? _selectedCategory;
   bool _isLoading = false;
 
+  String _locationVisibility = 'participants';
+  String _participantListVisibility = 'participants';
+
   final List<String> _categories = const [
     'Walking',
     'Running',
@@ -201,21 +204,41 @@ class _CreateActivityScreenState extends State<CreateActivityScreen> {
           .add({
         'hostId': user.uid,
         'hostName': hostName,
+        'hostPhotoUrl': userData['photoUrl'] ?? '',
+
         'title': _titleController.text.trim(),
         'category': _selectedCategory,
         'description': _descriptionController.text.trim(),
+
         'activityDate': Timestamp.fromDate(_selectedDate!),
         'startDateTime': Timestamp.fromDate(startDateTime),
         'endDateTime': Timestamp.fromDate(endDateTime),
+
         'startTimeLabel': _formatTime(_startTime),
         'endTimeLabel': _formatTime(_endTime),
+
         'location': _locationController.text.trim(),
+        'locationVisibility': _locationVisibility,
+
         'maxParticipants': maxParticipants,
+
         'participantIds': [user.uid],
         'participantCount': 1,
+        'participantListVisibility': _participantListVisibility,
+
+        'attendedParticipantIds': <String>[],
+        'attendanceCount': 0,
+
         'itemsToBring': _bringController.text.trim(),
+
+        'allowParticipantSharing': true,
+        'sharedByParticipantIds': <String>[],
+
         'status': 'upcoming',
+        'isCancelled': false,
+
         'createdAt': FieldValue.serverTimestamp(),
+        'updatedAt': FieldValue.serverTimestamp(),
       });
 
       if (!mounted) return;
@@ -618,6 +641,70 @@ class _CreateActivityScreenState extends State<CreateActivityScreen> {
 
                           const SizedBox(height: 16),
 
+                          DropdownButtonFormField<String>(
+                            value: _locationVisibility,
+                            decoration: _inputDecoration(
+                              label: 'Who can see the exact location?',
+                              icon: Icons.location_off_rounded,
+                            ),
+                            items: const [
+                              DropdownMenuItem(
+                                value: 'participants',
+                                child: Text('Joined participants only'),
+                              ),
+                              DropdownMenuItem(
+                                value: 'followers',
+                                child: Text('My followers'),
+                              ),
+                              DropdownMenuItem(
+                                value: 'public',
+                                child: Text('Everyone'),
+                              ),
+                            ],
+                            onChanged: _isLoading
+                                ? null
+                                : (value) {
+                              if (value == null) return;
+
+                              setState(() {
+                                _locationVisibility = value;
+                              });
+                            },
+                          ),
+
+                          const SizedBox(height: 16),
+
+                          DropdownButtonFormField<String>(
+                            value: _participantListVisibility,
+                            decoration: _inputDecoration(
+                              label: 'Who can view the participant list?',
+                              icon: Icons.visibility_rounded,
+                            ),
+                            items: const [
+                              DropdownMenuItem(
+                                value: 'participants',
+                                child: Text('Joined participants only'),
+                              ),
+                              DropdownMenuItem(
+                                value: 'followers',
+                                child: Text('My followers'),
+                              ),
+                              DropdownMenuItem(
+                                value: 'public',
+                                child: Text('Everyone'),
+                              ),
+                            ],
+                            onChanged: _isLoading
+                                ? null
+                                : (value) {
+                              if (value == null) return;
+
+                              setState(() {
+                                _participantListVisibility = value;
+                              });
+                            },
+                          ),
+
                           TextFormField(
                             controller:
                             _maxParticipantsController,
@@ -685,7 +772,8 @@ class _CreateActivityScreenState extends State<CreateActivityScreen> {
                           SizedBox(width: 12),
                           Expanded(
                             child: Text(
-                              'You will automatically be added as the host and first participant.',
+                              'You will automatically be added as the host and first participant. '
+                                  'Participants can choose whether to share their attendance after the activity.',
                               style: TextStyle(
                                 fontSize: 14,
                                 height: 1.45,

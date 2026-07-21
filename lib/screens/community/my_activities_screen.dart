@@ -1,3 +1,4 @@
+import 'activity_participants_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -962,25 +963,46 @@ class _MyActivitiesScreenState extends State<MyActivitiesScreen> {
 
             const SizedBox(height: 10),
 
-            Row(
-              children: [
-                const Icon(
-                  Icons.groups_rounded,
-                  size: 20,
-                  color: AppColors.petalRouge,
-                ),
-                const SizedBox(width: 8),
-                Text(
-                  '${participantIds.length}'
-                      '${maxParticipants > 0 ? ' / $maxParticipants' : ''} '
-                      'participants',
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w800,
-                    color: AppColors.darkText,
+            InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => ActivityParticipantsScreen(
+                      activityId: activityId,
+                    ),
                   ),
+                );
+              },
+              borderRadius: BorderRadius.circular(12),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4),
+                child: Row(
+                  children: [
+                    const Icon(
+                      Icons.groups_rounded,
+                      size: 20,
+                      color: AppColors.petalRouge,
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        '${participantIds.length}'
+                            '${maxParticipants > 0 ? ' / $maxParticipants' : ''} participants',
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w800,
+                          color: AppColors.darkText,
+                        ),
+                      ),
+                    ),
+                    const Icon(
+                      Icons.chevron_right_rounded,
+                      color: AppColors.petalRouge,
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
 
             const SizedBox(height: 14),
