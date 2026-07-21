@@ -226,6 +226,59 @@ class _MyActivitiesScreenState extends State<MyActivitiesScreen> {
     }
   }
 
+  Future<void> _deleteActivity({
+    required String activityId,
+    required String activityTitle,
+  }) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Delete Activity'),
+        content: Text(
+          'Are you sure you want to permanently delete "$activityTitle"?',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Cancel'),
+          ),
+          FilledButton(
+            style: FilledButton.styleFrom(
+              backgroundColor: Colors.red,
+            ),
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text('Delete'),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed != true) return;
+
+    try {
+      await FirebaseFirestore.instance
+          .collection('communityActivities')
+          .doc(activityId)
+          .delete();
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Activity deleted successfully.'),
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Failed to delete activity: $e'),
+          ),
+        );
+      }
+    }
+  }
+
   Future<void> _leaveActivity({
     required String activityId,
     required Map<String, dynamic> activityData,
@@ -1076,6 +1129,40 @@ class _MyActivitiesScreenState extends State<MyActivitiesScreen> {
                     foregroundColor: AppColors.petalRouge,
                     side: const BorderSide(
                       color: AppColors.petalRouge,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    textStyle: const TextStyle(
+                      fontWeight: FontWeight.w900,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+
+            if (isHost) ...[
+              const SizedBox(height: 14),
+              SizedBox(
+                width: double.infinity,
+                height: 47,
+                child: OutlinedButton.icon(
+                  onPressed: () {
+                    _deleteActivity(
+                      activityId: activityId,
+                      activityTitle: title,
+                    );
+                  },
+                  icon: const Icon(
+                    Icons.delete_outline_rounded,
+                  ),
+                  label: const Text(
+                    'Delete Activity',
+                  ),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: Colors.red,
+                    side: const BorderSide(
+                      color: Colors.red,
                     ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16),
